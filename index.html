@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<!--
+  TEMPLATE NOTE: Real content for MJ Gerarman. Still worth a look before publishing:
+  the LinkedIn link is a placeholder (marked EDIT ME), and all "View" project links
+  currently point to the main GitHub profile until each project has its own repo.
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MJ Gerarman — Computer Engineering Student</title>
+<meta name="description" content="Portfolio of MJ Gerarman, a Computer Engineering student working in C#, SQL Server, and Windows Forms, learning full-stack web development.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%91%8B%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F7F5FB;
+    --ink:#17152B;
+    --ink-soft:#5A5578;
+    --coral:#FF5A4E;
+    --violet:#6C4CFF;
+    --mint:#0FB88A;
+    --yellow:#FFC53D;
+    --sky:#2F8FFF;
+    --white:#FFFFFF;
+    --border: rgba(23,21,43,0.14);
+    --shadow: 0 24px 48px -28px rgba(23,21,43,0.35);
+    --radius: 22px;
+    --mono:'Space Mono', monospace;
+    --display:'Fredoka', sans-serif;
+    --body:'Plus Jakarta Sans', sans-serif;
+    --maxw: 1100px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background-color:var(--bg);
+    background-image: radial-gradient(rgba(23,21,43,0.16) 1.4px, transparent 1.4px);
+    background-size: 26px 26px;
+    color:var(--ink);
+    font-family:var(--body);
+    -webkit-font-smoothing:antialiased;
+  }
+  img,svg{display:block;max-width:100%;}
+  a{color:inherit;text-decoration:none;}
+  ul{list-style:none;margin:0;padding:0;}
+  h1,h2,h3{margin:0;font-family:var(--display);}
+  p{margin:0;}
+
+  :focus-visible{outline:2.5px solid var(--sky); outline-offset:3px; border-radius:4px;}
+
+  .canvas{max-width:var(--maxw); margin:0 auto; padding:0 24px;}
+
+  /* ---------- NAV ---------- */
+  .nav{
+    position:sticky; top:0; z-index:50;
+    backdrop-filter: blur(10px);
+    background: rgba(247,245,251,0.78);
+    border-bottom:1.5px solid var(--border);
+  }
+  .nav-inner{
+    max-width:var(--maxw); margin:0 auto; padding:16px 24px;
+    display:flex; align-items:center; justify-content:space-between; gap:20px;
+    position:relative;
+  }
+  .logo{
+    font-family:var(--display); font-weight:700; font-size:1.3rem;
+    display:flex; align-items:center; gap:8px;
+  }
+  .logo-dot{width:10px;height:10px;border-radius:3px;background:var(--coral); transform:rotate(8deg);}
+  .nav-links{display:flex; align-items:center; gap:28px;}
+  .nav-links a{
+    font-weight:600; font-size:0.95rem; color:var(--ink-soft);
+    padding:6px 2px; border-bottom:2px solid transparent; transition:.2s;
+  }
+  .nav-links a:hover{color:var(--ink); border-color:var(--coral);}
+  .nav-right{display:flex; align-items:center; gap:16px;}
+  .status-pill{
+    font-family:var(--mono); font-size:12px; display:flex; align-items:center; gap:7px;
+    border:1.5px solid var(--border); padding:7px 13px; border-radius:999px; color:var(--ink-soft);
+    white-space:nowrap;
+  }
+  .status-dot{width:7px;height:7px;border-radius:50%;background:var(--mint); box-shadow:0 0 0 3px rgba(15,184,138,0.18);}
+  .nav-toggle{display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; padding:6px;}
+  .nav-toggle span{width:22px; height:2px; background:var(--ink); border-radius:2px; transition:.2s;}
+  .nav-toggle[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+  .nav-toggle[aria-expanded="true"] span:nth-child(2){opacity:0;}
+  .nav-toggle[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+
+  @media (max-width:760px){
+    .nav-links{
+      position:absolute; top:100%; left:0; right:0; flex-direction:column; align-items:stretch; gap:0;
+      background:var(--white); border-bottom:1.5px solid var(--border); padding:6px 24px 20px;
+      opacity:0; visibility:hidden; transform:translateY(-8px);
+      transition:opacity .2s ease, transform .2s ease, visibility .2s;
+    }
+    .nav-links.open{opacity:1; visibility:visible; transform:translateY(0);}
+    .nav-links a{display:block; padding:13px 0; border-bottom:1px solid var(--border);}
+    .status-pill{display:none;}
+    .nav-toggle{display:flex;}
+  }
+
+  /* ---------- FRAMES (the shared "canvas" language) ---------- */
+  main{padding-top:56px;}
+  section{scroll-margin-top:84px;}
+  .frame{
+    position:relative;
+    background:var(--white);
+    border:1.5px solid var(--border);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:64px;
+    margin:0 auto 128px;
+    opacity:0; transform:translateY(28px);
+    transition: opacity .7s ease, transform .7s ease;
+  }
+  .frame.in-view{opacity:1; transform:translateY(0);}
+  .frame-label{
+    position:absolute; top:-32px; left:2px;
+    display:flex; align-items:center; gap:8px;
+    font-family:var(--mono); font-size:12px; letter-spacing:0.06em; text-transform:uppercase;
+    color:var(--ink-soft);
+  }
+  .frame-label .dot{width:8px;height:8px;border-radius:2px;}
+  @media (max-width:640px){
+    .frame{padding:36px 24px; border-radius:16px; margin-bottom:96px;}
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{overflow:hidden;}
+  .blob{position:absolute; border-radius:50%; filter:blur(38px); opacity:0.35; z-index:0;}
+  .blob-a{width:320px; height:320px; background:var(--violet); top:-120px; right:-80px;}
+  .blob-b{width:260px; height:260px; background:var(--yellow); bottom:-100px; left:-60px; opacity:0.4;}
+  .hero-content{position:relative; z-index:2;}
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:var(--mono); font-size:12.5px; letter-spacing:0.04em;
+    background:rgba(15,184,138,0.1); color:#0C8F6C;
+    border:1.5px solid rgba(15,184,138,0.35);
+    padding:7px 14px; border-radius:999px; margin-bottom:24px;
+  }
+  h1.headline{
+    font-size:clamp(2.3rem, 5.4vw, 4.1rem); line-height:1.06; font-weight:600; letter-spacing:-0.01em;
+    max-width:15ch;
+  }
+  h1.headline .accent{color:var(--coral);}
+  .hero-sub{
+    margin-top:22px; max-width:48ch; font-size:1.13rem; line-height:1.65; color:var(--ink-soft);
+  }
+  .hero-ctas{display:flex; flex-wrap:wrap; gap:16px; margin-top:36px;}
+
+  .btn-primary{
+    background:var(--ink); color:var(--white); font-family:var(--body); font-weight:700;
+    padding:15px 28px; border-radius:999px; border:none; cursor:pointer;
+    box-shadow:5px 5px 0 var(--coral); transition:transform .18s ease, box-shadow .18s ease;
+    display:inline-flex; align-items:center; gap:8px; font-size:0.98rem;
+  }
+  .btn-primary:hover{transform:translate(-3px,-3px); box-shadow:8px 8px 0 var(--coral);}
+  .btn-secondary{
+    font-family:var(--body); font-weight:700; padding:14px 26px; border-radius:999px;
+    border:1.5px solid var(--ink); background:transparent; color:var(--ink); cursor:pointer;
+    transition:.2s; font-size:0.98rem;
+  }
+  .btn-secondary:hover{background:var(--ink); color:var(--white);}
+
+  /* ---------- CURSORS (signature detail) ---------- */
+  .cursor{position:absolute; z-index:3; display:flex; align-items:flex-start; gap:0; pointer-events:none;}
+  .cursor svg{width:22px; height:22px;}
+  .cursor-tag{
+    font-family:var(--mono); font-size:11px; color:white; white-space:nowrap;
+    padding:3px 9px; border-radius:0 8px 8px 8px; transform:translate(-2px,10px);
+  }
+  .cursor-1{top:6%; right:8%; animation: float1 7s ease-in-out infinite;}
+  .cursor-2{bottom:10%; left:4%; animation: float2 8.5s ease-in-out infinite;}
+  @keyframes float1{0%,100%{transform:translate(0,0);}50%{transform:translate(-14px,16px);}}
+  @keyframes float2{0%,100%{transform:translate(0,0);}50%{transform:translate(16px,-12px);}}
+  @media (max-width:640px){ .cursor{display:none;} }
+
+  /* ---------- ABOUT ---------- */
+  .about-grid{display:grid; grid-template-columns:1.3fr 1fr; gap:48px; align-items:start;}
+  .sticky-note{
+    background:#FFF8E1; border:1.5px solid rgba(255,197,61,0.55); border-radius:14px;
+    padding:28px 26px; transform:rotate(-0.6deg);
+    font-size:1.03rem; line-height:1.7; color:var(--ink);
+  }
+  .sticky-note p + p{margin-top:14px;}
+  .facts{display:flex; flex-direction:column; gap:12px;}
+  .fact-pill{
+    font-family:var(--mono); font-size:13px; border:1.5px solid var(--border);
+    padding:11px 16px; border-radius:12px; color:var(--ink-soft); background:var(--bg);
+  }
+  @media (max-width:760px){ .about-grid{grid-template-columns:1fr;} }
+
+  /* ---------- TOOLKIT ---------- */
+  .toolkit-grid{display:grid; grid-template-columns:1fr 1fr; gap:44px;}
+  .toolkit-group h3{
+    font-family:var(--mono); font-size:13px; text-transform:uppercase; letter-spacing:0.06em;
+    color:var(--ink-soft); font-weight:700; display:flex; align-items:center; gap:9px; margin-bottom:16px;
+  }
+  .toolkit-group h3 .dot{width:8px;height:8px;border-radius:50%;}
+  .chip-row{display:flex; flex-wrap:wrap; gap:10px;}
+  .chip{
+    font-family:var(--mono); font-size:13px; padding:9px 15px; border-radius:999px;
+    border:1.5px solid var(--border); background:var(--white); color:var(--ink);
+    transition:.18s;
+  }
+  .chip:hover{border-color:var(--sky); transform:translateY(-2px);}
+  @media (max-width:760px){ .toolkit-grid{grid-template-columns:1fr; gap:32px;} }
+
+  /* ---------- WORK ---------- */
+  .section-head{margin-bottom:40px;}
+  .section-head h2{font-size:clamp(1.6rem,3vw,2.3rem); font-weight:600;}
+  .section-head p{color:var(--ink-soft); margin-top:10px; font-size:1.02rem;}
+  .work-grid{display:grid; grid-template-columns:1fr 1fr; gap:26px;}
+  .project-card{
+    position:relative; border:1.5px solid var(--border); border-radius:16px;
+    padding:26px; background:var(--bg); transition:transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+  }
+  .project-card:hover, .project-card:focus-within{
+    transform:translateY(-5px); box-shadow:0 20px 34px -18px rgba(23,21,43,0.32); border-color:var(--sky);
+  }
+  .card-top{display:flex; align-items:center; gap:10px; margin-bottom:14px;}
+  .file-dot{width:11px;height:11px;border-radius:3px;}
+  .project-card h3{font-size:1.22rem; font-weight:600;}
+  .project-card .desc{color:var(--ink-soft); font-size:0.97rem; line-height:1.6; margin-top:10px;}
+  .project-tags{display:flex; flex-wrap:wrap; gap:8px; margin-top:16px;}
+  .project-tags span{
+    font-family:var(--mono); font-size:11.5px; padding:5px 10px; border-radius:7px;
+    background:var(--white); border:1px solid var(--border); color:var(--ink-soft);
+  }
+  .card-foot{display:flex; align-items:center; justify-content:space-between; margin-top:20px;}
+  .meta{font-family:var(--mono); font-size:11.5px; color:var(--ink-soft); opacity:0.8;}
+  .view-link{font-weight:700; font-size:0.9rem; display:inline-flex; align-items:center; gap:5px;}
+  .view-link svg{width:13px; height:13px; transition:transform .18s;}
+  .project-card:hover .view-link svg{transform:translate(3px,-3px);}
+
+  .handle{
+    position:absolute; width:9px; height:9px; background:var(--sky);
+    border:2px solid var(--white); border-radius:2px; opacity:0; transition:opacity .18s;
+  }
+  .h-tl{top:-6px; left:-6px;} .h-tr{top:-6px; right:-6px;}
+  .h-bl{bottom:-6px; left:-6px;} .h-br{bottom:-6px; right:-6px;}
+  .project-card:hover .handle, .project-card:focus-within .handle{opacity:1;}
+
+  .dim-tag{
+    position:absolute; top:-30px; right:0; background:var(--sky); color:white;
+    font-family:var(--mono); font-size:10.5px; padding:5px 9px; border-radius:7px 7px 0 7px;
+    opacity:0; transform:translateY(4px); transition:.18s; white-space:nowrap;
+  }
+  .project-card:hover .dim-tag, .project-card:focus-within .dim-tag{opacity:1; transform:translateY(0);}
+
+  @media (max-width:760px){ .work-grid{grid-template-columns:1fr;} }
+
+  /* ---------- CONTACT ---------- */
+  .contact-inner{position:relative; text-align:center; padding:20px 0 8px;}
+  .contact-inner h2{font-size:clamp(1.7rem,3.6vw,2.6rem); max-width:22ch; margin:0 auto; line-height:1.2;}
+  .contact-inner p{color:var(--ink-soft); margin-top:16px; font-size:1.05rem;}
+  .contact-links{display:flex; flex-wrap:wrap; justify-content:center; gap:14px; margin-top:34px;}
+  .contact-links a{
+    font-family:var(--mono); font-size:13.5px; font-weight:700; padding:12px 20px;
+    border:1.5px solid var(--ink); border-radius:999px; transition:.2s;
+  }
+  .contact-links a:hover{background:var(--ink); color:var(--white);}
+  .contact-links a.primary{background:var(--coral); border-color:var(--coral); color:white; box-shadow:4px 4px 0 var(--violet);}
+  .contact-links a.primary:hover{transform:translate(-2px,-2px); box-shadow:6px 6px 0 var(--violet); background:var(--coral); color:white;}
+
+  footer{
+    max-width:var(--maxw); margin:0 auto; padding:0 24px 64px;
+    display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;
+  }
+  footer p{font-family:var(--mono); font-size:12px; color:var(--ink-soft);}
+  .you-cursor{display:flex; align-items:center; gap:6px; font-family:var(--mono); font-size:12px; color:var(--ink-soft);}
+  .you-cursor svg{width:14px; height:14px;}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important; transition:none !important;}
+    .frame{opacity:1; transform:none;}
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <a class="logo" href="#top"><span class="logo-dot"></span>MJ Gerarman</a>
+    <ul class="nav-links" id="mobile-menu">
+      <li><a href="#about">About</a></li>
+      <li><a href="#toolkit">Toolkit</a></li>
+      <li><a href="#work">Work</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="nav-right">
+      <span class="status-pill"><span class="status-dot"></span>Open to internships</span>
+      <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="canvas">
+
+    <!-- HERO -->
+    <section id="top" class="frame hero">
+      <div class="frame-label"><span class="dot" style="background:var(--coral)"></span>Frame 01 — Hero</div>
+      <div class="blob blob-a" aria-hidden="true"></div>
+      <div class="blob blob-b" aria-hidden="true"></div>
+
+      <div class="cursor cursor-1" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="var(--violet)"><path d="M4 2 L4 20 L9 15 L12.5 22 L15 21 L11.5 14 L18 14 Z"/></svg>
+        <span class="cursor-tag" style="background:var(--violet)">hello</span>
+      </div>
+      <div class="cursor cursor-2" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="var(--mint)"><path d="M4 2 L4 20 L9 15 L12.5 22 L15 21 L11.5 14 L18 14 Z"/></svg>
+        <span class="cursor-tag" style="background:var(--mint)">how are you?</span>
+      </div>
+
+      <div class="hero-content">
+        <span class="eyebrow"><span style="font-size:14px;">🟢</span>Open to software engineering internships</span>
+        <h1 class="headline">Hi, I'm MJ.<br>I build things that <span class="accent">actually</span> work.</h1>
+        <p class="hero-sub">Computer Engineering student building mostly in C#, SQL Server, and Windows Forms — and currently teaching myself full-stack web development with ASP.NET Core, JavaScript, and Figma. This is where I keep the things I'm building.</p>
+        <div class="hero-ctas">
+          <a class="btn-primary" href="#work">View my work →</a>
+          <a class="btn-secondary" href="#contact">Say hello</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="frame">
+      <div class="frame-label"><span class="dot" style="background:var(--yellow)"></span>Frame 02 — About</div>
+      <div class="about-grid">
+        <div class="sticky-note">
+          <p>I'm a Computer Engineering student who enjoys turning ideas into working software. My foundation is in C#, Windows Forms, and SQL Server, where I've built practical desktop and console applications — from inventory tracking to a simple banking system.</p>
+          <p>I'm now expanding into full-stack web development — learning ASP.NET Core, HTML, CSS, JavaScript, and Figma — with the goal of becoming a well-rounded full-stack developer and landing a software engineering internship.</p>
+        </div>
+        <div class="facts">
+          <span class="fact-pill">🎯 Goal: Full-Stack Web Developer</span>
+          <span class="fact-pill">💻 Core stack: C# · SQL Server · Windows Forms</span>
+          <span class="fact-pill">🌐 Learning: ASP.NET Core · JS · Figma</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOLKIT -->
+    <section id="toolkit" class="frame">
+      <div class="frame-label"><span class="dot" style="background:var(--violet)"></span>Frame 03 — Toolkit</div>
+      <div class="toolkit-grid">
+        <div class="toolkit-group">
+          <h3><span class="dot" style="background:var(--coral)"></span>Core Skills</h3>
+          <div class="chip-row">
+            <span class="chip">C#</span>
+            <span class="chip">Windows Forms</span>
+            <span class="chip">SQL Server</span>
+            <span class="chip">Git &amp; GitHub</span>
+          </div>
+        </div>
+        <div class="toolkit-group">
+          <h3><span class="dot" style="background:var(--sky)"></span>Currently Learning</h3>
+          <div class="chip-row">
+            <span class="chip">ASP.NET Core</span>
+            <span class="chip">HTML5</span>
+            <span class="chip">CSS3</span>
+            <span class="chip">JavaScript</span>
+            <span class="chip">Figma</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WORK -->
+    <section id="work" class="frame">
+      <div class="frame-label"><span class="dot" style="background:var(--sky)"></span>Frame 04 — Selected Work</div>
+      <div class="section-head">
+        <h2>A few things I've made</h2>
+        <p>Hover a project to peek at the file details — couldn't resist borrowing the habit from design tools.</p>
+      </div>
+      <div class="work-grid">
+
+        <!-- EDIT ME: point each card at its own repo once you create one -->
+        <a class="project-card" href="https://github.com/m-code1" tabindex="0">
+          <span class="handle h-tl"></span><span class="handle h-tr"></span>
+          <span class="handle h-bl"></span><span class="handle h-br"></span>
+          <span class="dim-tag">Frame · RevShop · 1440×900</span>
+          <div class="card-top"><span class="file-dot" style="background:var(--coral)"></span><h3>RevShop Inventory System</h3></div>
+          <p class="desc">A desktop inventory management system for tracking stock, sales, and suppliers, backed by a relational database.</p>
+          <div class="project-tags"><span>C#</span><span>Windows Forms</span><span>SQL Server</span></div>
+          <div class="card-foot">
+            <span class="meta">Desktop app · 2025</span>
+            <span class="view-link">View <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg></span>
+          </div>
+        </a>
+
+        <a class="project-card" href="https://github.com/m-code1" tabindex="0">
+          <span class="handle h-tl"></span><span class="handle h-tr"></span>
+          <span class="handle h-bl"></span><span class="handle h-br"></span>
+          <span class="dim-tag">Frame · Banking System · 1440×900</span>
+          <div class="card-top"><span class="file-dot" style="background:var(--mint)"></span><h3>Simple Banking System</h3></div>
+          <p class="desc">A console-based banking simulation supporting account creation, deposits, withdrawals, and transaction history.</p>
+          <div class="project-tags"><span>C#</span><span>Console App</span><span>OOP</span></div>
+          <div class="card-foot">
+            <span class="meta">Console app · 2024</span>
+            <span class="view-link">View <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg></span>
+          </div>
+        </a>
+
+        <a class="project-card" href="https://github.com/m-code1" tabindex="0">
+          <span class="handle h-tl"></span><span class="handle h-tr"></span>
+          <span class="handle h-bl"></span><span class="handle h-br"></span>
+          <span class="dim-tag">Frame · C Projects · 1440×900</span>
+          <div class="card-top"><span class="file-dot" style="background:var(--sky)"></span><h3>C Programming Projects</h3></div>
+          <p class="desc">A collection of C exercises and mini-projects covering data structures, algorithms, and core programming fundamentals.</p>
+          <div class="project-tags"><span>C</span><span>Data Structures</span><span>Algorithms</span></div>
+          <div class="card-foot">
+            <span class="meta">Coursework · Ongoing</span>
+            <span class="view-link">View <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg></span>
+          </div>
+        </a>
+
+        <a class="project-card" href="https://github.com/m-code1" tabindex="0">
+          <span class="handle h-tl"></span><span class="handle h-tr"></span>
+          <span class="handle h-bl"></span><span class="handle h-br"></span>
+          <span class="dim-tag">Frame · Beauty Salon · 1440×900</span>
+          <div class="card-top"><span class="file-dot" style="background:var(--yellow)"></span><h3>Beauty Salon Website</h3></div>
+          <p class="desc">A responsive website concept for a local beauty salon, featuring service listings and interactive JavaScript components.</p>
+          <div class="project-tags"><span>HTML</span><span>CSS</span><span>JavaScript</span></div>
+          <div class="card-foot">
+            <span class="meta">Web project · 2025</span>
+            <span class="view-link">View <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg></span>
+          </div>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="frame">
+      <div class="frame-label"><span class="dot" style="background:var(--mint)"></span>Frame 05 — Let's talk</div>
+      <div class="contact-inner">
+        <h2>Got a project, an internship opportunity, or just want to say hi?</h2>
+        <p>My inbox is always open — I usually reply within a day or two.</p>
+        <div class="contact-links">
+          <a class="primary" href="mailto:mharjohngerarman10@gmail.com">mharjohngerarman10@gmail.com</a>
+          <a href="https://github.com/m-code1">GitHub ↗</a>
+          <!-- EDIT ME: replace with your real LinkedIn URL -->
+          <a href="https://linkedin.com/in/your-name">LinkedIn ↗</a>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer>
+  <p>Built with care (and a lot of coffee) · © 2026 MJ Gerarman</p>
+  <span class="you-cursor">
+    <svg viewBox="0 0 24 24" fill="var(--ink-soft)"><path d="M4 2 L4 20 L9 15 L12.5 22 L15 21 L11.5 14 L18 14 Z"/></svg>
+    you are here
+  </span>
+</footer>
+
+<script>
+  // Mobile nav toggle
+  const toggle = document.querySelector('.nav-toggle');
+  const links = document.querySelector('.nav-links');
+  toggle.addEventListener('click', () => {
+    const isOpen = links.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', isOpen);
+  });
+  links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    links.classList.remove('open');
+    toggle.setAttribute('aria-expanded', 'false');
+  }));
+
+  // Reveal each "frame" as it scrolls into view
+  const frames = document.querySelectorAll('.frame');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    frames.forEach(f => io.observe(f));
+  } else {
+    frames.forEach(f => f.classList.add('in-view'));
+  }
+</script>
+
+</body>
+</html>
