@@ -1,5 +1,5 @@
 # personal-portfolio
-cpe student portfolio
+just doing personal mini project
 
 ## screenshot
 <img width="1917" height="1078" alt="Screenshot 2026-07-15 125204" src="https://github.com/user-attachments/assets/bb497d59-d7d9-4114-9c42-7c0055ac31da" />
