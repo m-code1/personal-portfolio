@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500">
+  <defs>
+    <pattern id="dots" width="26" height="26" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1.6" fill="rgba(23,21,43,0.16)"/>
+    </pattern>
+  </defs>
+  <rect width="400" height="500" fill="#F7F5FB"/>
+  <rect width="400" height="500" fill="url(#dots)"/>
+  <rect width="400" height="500" fill="#FFC53D" opacity="0.16"/>
+  <g transform="translate(200,220)" fill="none" stroke="#C9942A" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="-46" y="-30" width="92" height="66" rx="10"/>
+    <path d="M-18 -30 L-10 -44 L10 -44 L18 -30"/>
+    <circle cx="0" cy="4" r="20"/>
+  </g>
+  <text x="200" y="330" text-anchor="middle" font-family="'Space Mono', monospace" font-size="15" letter-spacing="1.5" fill="#5A5578">PHOTO 4</text>
+</svg>
